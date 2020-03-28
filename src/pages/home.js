@@ -1,13 +1,14 @@
 import React from "react";
-import {
-  Link
-} from "react-router-dom";
+// import {
+//   Link
+// } from "react-router-dom";
+import {Spinner, Intent} from "@blueprintjs/core";
 
 export default () => {
+
   return (
-    <div>
-      Home
-      <Link to="/about">About</Link>
+    <div className='flex-container'>
+      <Spinner intent={Intent.WARNING} size={Spinner.SIZE_LARGE}/>
     </div>
   )
 }
