@@ -1,7 +1,3 @@
-import React from "react";
+import lineGraph from "./lineGraph";
 
-export default () => {
-  return (
-    <div>Line Graph</div>
-  )
-}
+export default lineGraph;

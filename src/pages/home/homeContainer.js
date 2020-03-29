@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {connect} from 'react-redux';
 import {Spinner, Intent} from "@blueprintjs/core";
 
@@ -8,15 +8,11 @@ import {fetchSensors} from "./homeDuck";
 import cities from './cities'
 
 const HomeContainer = (props) => {
-  const {isLoading, sensors} = props;
+  const {sensors} = props;
 
   useEffect(() => {
-    cities.forEach((city) => props.fetchSensors(city))
+    cities.filter(c => c.includes('cluj')).forEach((city) => props.fetchSensors({city}))
   }, [])
-
-  if (isLoading) {
-    return <Spinner intent={Intent.WARNING} size={Spinner.SIZE_LARGE}/>
-  }
 
   return (
     <HomeComponent payload={{sensors}}/>

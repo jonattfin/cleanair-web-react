@@ -2,9 +2,13 @@ import {createAction} from 'redux-api-middleware';
 
 const DUCK_NAME = '@@home';
 
-export const USER_REQUEST = `${DUCK_NAME}/USER_REQUEST`
-export const USER_SUCCESS = `${DUCK_NAME}/USER_SUCCESS`
-export const USER_FAILURE = `${DUCK_NAME}/USER_FAILURE`
+export const SENSORS_REQUEST = `${DUCK_NAME}/SENSORS_REQUEST`
+export const SENSORS_SUCCESS = `${DUCK_NAME}/SENSORS_SUCCESS`
+export const SENSORS_FAILURE = `${DUCK_NAME}/SENSORS_FAILURE`
+
+export const SENSOR_AVG_REQUEST = `${DUCK_NAME}/SENSOR_AVG_REQUEST`
+export const SENSOR_AVG_SUCCESS = `${DUCK_NAME}/SENSOR_AVG_SUCCESS`
+export const SENSOR_AVG_FAILURE = `${DUCK_NAME}/SENSOR_AVG_FAILURE`
 
 const initialState = {
   sensors: [],
@@ -14,24 +18,42 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_REQUEST:
+    case SENSORS_REQUEST:
       return {...state, sensors: [], error: undefined, isLoading: true}
-    case USER_SUCCESS:
-      return {...state, sensors: [...state.sensors, ...action.payload], isLoading: false}
-    case USER_FAILURE:
+    case SENSORS_SUCCESS:
+      const newPayload = action.payload.map(sensor => ({...sensor, ...action.meta}));
+      return {...state, sensors: [...state.sensors, ...newPayload], isLoading: false}
+    case SENSORS_FAILURE:
       return {...state, error: action.payload, isLoading: false}
     default:
       return state
   }
 }
 
-export const fetchSensors = (city) => createAction({
+export const fetchSensors = ({city}) => createAction({
   endpoint: `https://${city}.pulse.eco/rest/sensor`,
   method: 'GET',
   headers: {'Content-Type': 'application/json'},
   types: [
-    USER_REQUEST,
-    USER_SUCCESS,
-    USER_FAILURE
+    SENSORS_REQUEST,
+    {
+      type: SENSORS_SUCCESS,
+      meta: {city}
+    },
+    SENSORS_FAILURE
   ]
 })
+
+export const fetchSensorAverage = ({cityName, sensorId, periodType = 'month', valueType = 'pm25', fromDateTime, toDateTime}) => createAction({
+  endpoint: `https://${cityName}.pulse.eco/rest/avgData/${periodType}?sensorId=${sensorId}&type=${valueType}&from=${fromDateTime}&to=${toDateTime}`,
+  method: 'GET',
+  headers: {'Content-Type': 'application/json'},
+  types: [
+    SENSOR_AVG_REQUEST,
+    SENSOR_AVG_SUCCESS,
+    SENSOR_AVG_FAILURE
+  ]
+})
+
+
+
