@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 
-import map from './map'
+import homeReducer from './home/homeDuck'
 
 export default combineReducers({
-  map
+  home: homeReducer
 })

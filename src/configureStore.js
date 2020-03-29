@@ -4,7 +4,7 @@ import loggerMiddleware from 'redux-logger'
 import {apiMiddleware} from 'redux-api-middleware';
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-import rootReducer from './reducers'
+import rootReducer from './pages/reducers'
 
 export default function configureStore(preloadedState) {
   const middleware = [loggerMiddleware, thunkMiddleware, apiMiddleware]
