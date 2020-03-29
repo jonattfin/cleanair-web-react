@@ -1,18 +1,12 @@
 import React from 'react';
 import {action} from '@storybook/addon-actions';
-import {Button} from '@storybook/react/demo';
+import LineGraph from './index'
 
 export default {
-  title: 'Button',
-  component: Button,
+  title: 'LineGraph',
+  component: LineGraph,
 };
 
-export const Text = () => <Button onClick={action('clicked')}>Hello Button</Button>;
+export const withData = () => <LineGraph onClick={action('clicked')}/>;
+export const withoutData = () => <LineGraph onClick={action('clicked')}/>;
 
-export const Emoji = () => (
-  <Button onClick={action('clicked')}>
-    <span role="img" aria-label="so cool">
-      😀 😎 👍 💯
-    </span>
-  </Button>
-);

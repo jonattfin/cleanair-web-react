@@ -1,14 +1,21 @@
 import React from 'react';
-import {linkTo} from '@storybook/addon-links';
-import {Welcome} from '@storybook/react/demo';
+
+import Map from './index';
 
 export default {
-  title: 'Welcome',
-  component: Welcome,
-};
+  title: 'Map',
+  component: Map,
+}
 
-export const ToStorybook = () => <Welcome showApp={linkTo('Button')}/>;
+export const withData = () => <Map {...getProps()}/>
+export const withoutData = () => <Map/>
 
-ToStorybook.story = {
-  name: 'to Storybook',
-};
+function getProps() {
+  return {
+    data: [
+      {position: [45.56394, 25.00340]},
+      {position: [45.56394, 25.00340]},
+      {position: [45.56394, 25.00340]},
+    ]
+  }
+}
